@@ -12,8 +12,7 @@
         const subtract = (a,b) => a - b;
         const multiply = (a,b) => a * b;
         const divide = (a,b) => a / b;
-        function operate (a, b, operator) {
-            
-        }
+        const operate = (a, b, operator) => operator(a,b);
+        console.log(operate(1, 2, divide));
     </script>
 </html>
