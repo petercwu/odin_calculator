@@ -46,10 +46,9 @@
                 operate: function (a,b) {return a / b;}
             },
         ];
-        /* const h = 1;
-        console.log(mathFunctions[h].operate(1,2)); */
         const numbers = document.querySelectorAll(".number");
         const currentDisplay = document.querySelector("#currentDisplay");
+        const displayHistory = document.querySelector("#displayHistory");
         const operators = document.querySelectorAll(".operator");
         const clear = document.querySelector("#clear");
         const equals = document.querySelector("#equal");
@@ -59,8 +58,12 @@
                     currentDisplay.textContent = number.id;
                 } else if (tempOne == undefined){
                     currentDisplay.textContent = currentDisplay.textContent + number.id;
-                } else if ((tempOne !== undefined) && (tempTwo == undefined)) { //displays the second number to operate with the first
-                    currentDisplay.textContent = number.id;
+                } else if ((tempOne !== undefined)) { //displays the second number to operate with the first
+                    if ((tempTwo == undefined)) { //replaces display with first number to avoid adding it together
+                        currentDisplay.textContent = number.id;
+                    } else {
+                        currentDisplay.textContent = currentDisplay.textContent + number.id;
+                    }
                     tempTwo = parseInt(currentDisplay.textContent);
                 } 
             });
@@ -68,24 +71,27 @@
         operators.forEach((operator) => { //stores the clicked operator inside a variable
             operator.addEventListener("click", () => {
                 tempOperator = operator.id;
-                if (tempOne == undefined) {
+                if (tempOne == undefined) {//only stores the displayed number as tempOne ONCE
                     tempOne = parseInt(currentDisplay.textContent);
                 }
+                let operatorSign = document.getElementById(operator.id).innerHTML; //gets the symbol of the operator
+                displayHistory.textContent = tempOne + operatorSign;
             });
         });
-        equals.addEventListener("click", () => {
-            /* console.log(tempOperator);
-            console.log(tempOne);
-            console.log(tempTwo); */
-            for (let i = 0; i < mathFunctions.length; i++) { // matches the clicked operator with the operator inside the array and operates on the two numbers
-                if (mathFunctions[i].function == tempOperator) {
-                    let answer = mathFunctions[i].operate(tempOne, tempTwo);
-                    currentDisplay.textContent = answer;
+        equals.addEventListener("click", () => { // matches the clicked operator with the operator inside the array and operates on the two numbers
+            if ((tempOne && tempTwo) !== undefined) { //only operates if two numbers are selected
+                displayHistory.textContent = displayHistory.textContent + tempTwo + " =";
+                for (let i = 0; i < mathFunctions.length; i++) { 
+                    if (mathFunctions[i].function == tempOperator) {
+                        let answer = mathFunctions[i].operate(tempOne, tempTwo);
+                        currentDisplay.textContent = answer;
+                    }
                 }
             }
         });
-        clear.addEventListener("click", () => { //clears currentDisplay and variables
+        clear.addEventListener("click", () => { //clears the display and variables
             currentDisplay.textContent = "0";
+            displayHistory.textConent = " ";
             tempOne = tempTwo = tempOperator = undefined;
         });
     </script>
