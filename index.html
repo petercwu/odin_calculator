@@ -19,7 +19,8 @@
         <button class="operator" id="multiply" data-key="106"> * </button>
         <button class="operator" id="divide" data-key="111"> ÷ </button>
         <button class="number" id="." data-key="110"> . </button>
-        <button id="equal" data-key="8"> = </button>
+        <button id="equal" data-key="13"> = </button>
+        <button id="del" data-key="8"> del </button>
         <button id="clear"> clear </button>
         <p class="displayBox" id="displayHistory">  </p>
         <p class="displayBox" id="currentDisplay">0</p>
@@ -53,47 +54,43 @@
         const operators = document.querySelectorAll(".operator");
         const clear = document.querySelector("#clear");
         const equals = document.querySelector("#equal");
+        let display = [];
         numbers.forEach((number) => { //displays current selected number
             number.addEventListener("click", () => {
-                if (currentDisplay.textContent == "0") { //changes currentDisplay to first number instead of adding "0" to the string
-                    currentDisplay.textContent = number.id;
-                } else if (tempOne == undefined){
-                    currentDisplay.textContent = currentDisplay.textContent + number.id;
-                } else if ((tempOne !== undefined)) { //displays the second number to operate with the first
-                    if ((tempTwo == undefined)) { //replaces display with new number to avoid adding it together
-                        currentDisplay.textContent = number.id;
-                    } else {
-                        currentDisplay.textContent = currentDisplay.textContent + number.id;
-                    }
-                    tempTwo = parseFloat(currentDisplay.textContent);
-                } 
+                display.push(number.id);
+                currentDisplay.textContent = display.join(""); //merges numbers in array and displays it
             });
         });
-        operators.forEach((operator) => { //stores the clicked operator inside a variable
+        operators.forEach((operator) => { 
             operator.addEventListener("click", () => {
-                tempOperator = operator.id;
-                if (tempOne == undefined) {//only stores the displayed number as tempOne ONCE
+                tempOperator = operator.id; //stores the clicked operator inside a variable
+                if (tempOne == undefined) { //only stores the displayed number as tempOne ONCE until reset by equals
                     tempOne = parseFloat(currentDisplay.textContent);
+                    display = []; //resets display after storing tempOne
                 }
                 let operatorSign = document.getElementById(operator.id).innerHTML; //gets the symbol of the operator
                 displayHistory.textContent = tempOne + operatorSign;
             });
         });
         equals.addEventListener("click", () => { // matches the clicked operator with the operator inside the array and operates on the two numbers
+            tempTwo = parseFloat(currentDisplay.textContent);
             if ((tempOne && tempTwo) !== undefined) { //only operates if two numbers are selected
-                displayHistory.textContent = displayHistory.textContent + tempTwo + " =";
+                displayHistory.textContent = displayHistory.textContent + currentDisplay.textContent + " =";
                 for (let i = 0; i < mathFunctions.length; i++) { 
                     if (mathFunctions[i].function == tempOperator) {
                         let answer = mathFunctions[i].operate(tempOne, tempTwo);
                         currentDisplay.textContent = answer;
+                        display = []; //resets the stored variable
+                        tempOne = undefined; //makes it so you can use currentDisplay number for furthur operations
                     }
                 }
             }
         });
         clear.addEventListener("click", () => { //clears the display and variables
             currentDisplay.textContent = "0";
-            displayHistory.textConent = " ";
+            displayHistory.textContent = "";
             tempOne = tempTwo = tempOperator = undefined;
+            display = [];
         });
     </script>
 </html>
