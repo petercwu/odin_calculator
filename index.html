@@ -18,16 +18,32 @@
         <button class="operator" id="subtract"> - </button>
         <button class="operator" id="multiply"> * </button>
         <button class="operator" id="divide"> ÷ </button>
-        <button class="operator" id="equal"> = </button>
-        <button class="operator" id="clear"> clear </button>
+        <button id="equal"> = </button>
+        <button id="clear"> clear </button>
         <p class="displayBox" id="displayHistory">  </p>
         <p class="displayBox" id="currentDisplay">0</p>
     <script>
         let tempOne;
         let tempTwo;
-        let tempOperator;
+        let tempOperator= "add";
         //a is first number
         //b is second number
+
+        const mathFunctions = [
+            {
+                function: "add";
+                operate: 
+            }, 
+            {
+                function: "subtract";
+            },
+            {
+                function: "multiply";
+            }, 
+            {
+                function: "divide";
+            },
+        ];
         const add = (a,b) => a + b;
         const subtract = (a,b) => a - b;
         const multiply = (a,b) => a * b;
@@ -38,23 +54,45 @@
         const currentDisplay = document.querySelector("#currentDisplay");
         const operators = document.querySelectorAll(".operator");
         const clear = document.querySelector("#clear");
+        const equals = document.querySelector("#equal");
         numbers.forEach((number) => { //displays current selected number
             number.addEventListener("click", () => {
                 if (currentDisplay.textContent == "0") { //changes currentDisplay to first number instead of adding "0" to the string
                     currentDisplay.textContent = number.id;
-                } else {
+                } else if (tempOne == undefined){
                     currentDisplay.textContent = currentDisplay.textContent + number.id;
-                }
-                tempOne = currentDisplay.textContent;
+                } else if ((tempOne !== undefined) && (tempTwo == undefined)) { //displays the second number to operate with the first
+                    currentDisplay.textContent = number.id;
+                    tempTwo = currentDisplay.textContent;
+                } /* else if (tempOne !== "") {
+                    currentDisplay.textContent + number.id;
+                    tempTwo = currentDisplay.textContent;
+                    console.log(tempOne);
+                    console.log(tempTwo);
+                } */
+                
             });
         });
         operators.forEach((operator) => { //stores the clicked operator inside a variable
             operator.addEventListener("click", () => {
                 tempOperator = operator.id;
+                console.log(tempOperator);
+                if (tempOne == undefined) {
+                    tempOne = currentDisplay.textContent;
+                }
+                console.log(tempOne);
+                console.log(tempTwo);
             });
         });
-        clear.addEventListener("click", () => { //clears currentDisplay
+        equals.addEventListener("click", () => {
+            operate(tempOne, tempTwo, tempOperator);
+            console.log(tempOperator);
+            console.log(tempOne);
+            console.log(tempTwo);
+        });
+        clear.addEventListener("click", () => { //clears currentDisplay and variables
             currentDisplay.textContent = "0";
+            tempOne = tempTwo = tempOperator = undefined;
         });
     </script>
 </html>
