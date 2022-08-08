@@ -5,21 +5,22 @@
         <link rel="stylesheet" href="styles.css">
         <title> Odin Calculator </title>
     </head>
-        <button class="number" id="1" data-key="97"> 1 </button>
-        <button class="number" id="2" data-key="98"> 2 </button>
-        <button class="number" id="3" data-key="99"> 3 </button>
-        <button class="number" id="4" data-key="100"> 4 </button>
-        <button class="number" id="5" data-key="101"> 5 </button>
-        <button class="number" id="6" data-key="102"> 6 </button>
-        <button class="number" id="7" data-key="103"> 7 </button>
-        <button class="number" id="8" data-key="104"> 8 </button>
-        <button class="number" id="9" data-key="105"> 9 </button>
-        <button class="operator" id="add" data-key="107"> + </button>
-        <button class="operator" id="subtract" data-key="109"> - </button>
-        <button class="operator" id="multiply" data-key="106"> * </button>
-        <button class="operator" id="divide" data-key="111"> ÷ </button>
-        <button class="number" id="." data-key="110"> . </button>
-        <button id="equal" data-key="13"> = </button>
+        <button class="number" id="0" data-key="48">0</button>
+        <button class="number" id="1" data-key="49">1</button>
+        <button class="number" id="2" data-key="50">2</button>
+        <button class="number" id="3" data-key="51">3</button>
+        <button class="number" id="4" data-key="52">4</button>
+        <button class="number" id="5" data-key="53">5</button>
+        <button class="number" id="6" data-key="54">6</button>
+        <button class="number" id="7" data-key="55">7</button>
+        <button class="number" id="8" data-key="56">8</button>
+        <button class="number" id="9" data-key="57">9</button>
+        <button class="operator" id="add" data-key="43">+</button>
+        <button class="operator" id="subtract" data-key="45">-</button>
+        <button class="operator" id="multiply" data-key="42">*</button>
+        <button class="operator" id="divide" data-key="47">÷</button>
+        <button class="number" id="." data-key="46">.</button>
+        <button id="equals" data-key="13"> = </button>
         <button id="del" data-key="8"> del </button>
         <button id="clear"> clear </button>
         <p class="displayBox" id="displayHistory">  </p>
@@ -53,15 +54,17 @@
         const displayHistory = document.querySelector("#displayHistory");
         const operators = document.querySelectorAll(".operator");
         const clear = document.querySelector("#clear");
-        const equals = document.querySelector("#equal");
+        const equals = document.querySelector("#equals");
         const del = document.querySelector("#del");
         let display = [];
+
         numbers.forEach((number) => { //displays current selected number
             number.addEventListener("click", () => {
                 display.push(number.id);
                 currentDisplay.textContent = display.join(""); //merges numbers in array and displays it
             });
         });
+
         operators.forEach((operator) => { 
             operator.addEventListener("click", () => {
                 tempOperator = operator.id; //stores the clicked operator inside a variable
@@ -73,6 +76,7 @@
                 displayHistory.textContent = tempOne + operatorSign;
             });
         });
+
         equals.addEventListener("click", () => { // matches the clicked operator with the operator inside the array and operates on the two numbers
             tempTwo = parseFloat(currentDisplay.textContent);
             if ((tempOne && tempTwo) !== undefined) { //only operates if two numbers are selected
@@ -87,15 +91,34 @@
                 }
             }
         });
+
         clear.addEventListener("click", () => { //clears the display and variables
             currentDisplay.textContent = "0";
             displayHistory.textContent = "";
             tempOne = tempTwo = tempOperator = undefined;
             display = [];
         });
+
         del.addEventListener ("click", () => { //deletes last added digit in display
             display.pop();
             currentDisplay.textContent = display.join("");
         });
+
+        function keyPressed(e) {
+            if (48 <= e.keyCode) { // if key is numbers 0-9
+                console.log(e.keyCode);
+                let numberKey = document.querySelector(`.number[data-key="${e.keyCode}"]`).id;
+                display.push(numberKey);
+                currentDisplay.textContent = display.join("");
+            } else if (e.keyCode == 13) { // if key is equals
+                let equals = document.querySelector(`#equals[data-key="${e.keyCode}"]`).id;
+                document.getElementById(equals).click();
+            } else { // if key is an operator
+                let operatorKey = document.querySelector(`.operator[data-key="${e.keyCode}"]`).id;
+                document.getElementById(operatorKey).click();
+            }
+        };
+        
+        window.addEventListener("keypress", keyPressed);
     </script>
 </html>
