@@ -25,31 +25,27 @@
     <script>
         let tempOne;
         let tempTwo;
-        let tempOperator= "add";
+        let tempOperator;
         //a is first number
         //b is second number
-
         const mathFunctions = [
-            {
-                function: "add";
-                operate: 
-            }, 
-            {
-                function: "subtract";
+            {//index 0
+                function: "add",
+                operate: function (a,b) {return a + b;}
             },
-            {
-                function: "multiply";
-            }, 
-            {
-                function: "divide";
+            {//index 1
+                function: "subtract",
+                operate: function (a,b) {return a - b;}
+            },
+            {//index 2
+                function: "multiply",
+                operate: function (a,b) {return a * b;}
+            },
+            {//index 3
+                function: "divide",
+                operate: function (a,b) {return a / b;}
             },
         ];
-        const add = (a,b) => a + b;
-        const subtract = (a,b) => a - b;
-        const multiply = (a,b) => a * b;
-        const divide = (a,b) => a / b;
-        const operate = (a, b, operator) => operator(a,b);
-        
         const numbers = document.querySelectorAll(".number");
         const currentDisplay = document.querySelector("#currentDisplay");
         const operators = document.querySelectorAll(".operator");
@@ -64,31 +60,19 @@
                 } else if ((tempOne !== undefined) && (tempTwo == undefined)) { //displays the second number to operate with the first
                     currentDisplay.textContent = number.id;
                     tempTwo = currentDisplay.textContent;
-                } /* else if (tempOne !== "") {
-                    currentDisplay.textContent + number.id;
-                    tempTwo = currentDisplay.textContent;
-                    console.log(tempOne);
-                    console.log(tempTwo);
-                } */
-                
+                } 
             });
         });
         operators.forEach((operator) => { //stores the clicked operator inside a variable
             operator.addEventListener("click", () => {
                 tempOperator = operator.id;
-                console.log(tempOperator);
                 if (tempOne == undefined) {
                     tempOne = currentDisplay.textContent;
                 }
-                console.log(tempOne);
-                console.log(tempTwo);
             });
         });
         equals.addEventListener("click", () => {
-            operate(tempOne, tempTwo, tempOperator);
-            console.log(tempOperator);
-            console.log(tempOne);
-            console.log(tempTwo);
+
         });
         clear.addEventListener("click", () => { //clears currentDisplay and variables
             currentDisplay.textContent = "0";
