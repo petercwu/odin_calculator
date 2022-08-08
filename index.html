@@ -54,6 +54,7 @@
         const operators = document.querySelectorAll(".operator");
         const clear = document.querySelector("#clear");
         const equals = document.querySelector("#equal");
+        const del = document.querySelector("#del");
         let display = [];
         numbers.forEach((number) => { //displays current selected number
             number.addEventListener("click", () => {
@@ -91,6 +92,10 @@
             displayHistory.textContent = "";
             tempOne = tempTwo = tempOperator = undefined;
             display = [];
+        });
+        del.addEventListener ("click", () => { //deletes last added digit in display
+            display.pop();
+            currentDisplay.textContent = display.join("");
         });
     </script>
 </html>
