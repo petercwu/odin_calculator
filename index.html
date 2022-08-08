@@ -46,6 +46,8 @@
                 operate: function (a,b) {return a / b;}
             },
         ];
+        /* const h = 1;
+        console.log(mathFunctions[h].operate(1,2)); */
         const numbers = document.querySelectorAll(".number");
         const currentDisplay = document.querySelector("#currentDisplay");
         const operators = document.querySelectorAll(".operator");
@@ -59,7 +61,7 @@
                     currentDisplay.textContent = currentDisplay.textContent + number.id;
                 } else if ((tempOne !== undefined) && (tempTwo == undefined)) { //displays the second number to operate with the first
                     currentDisplay.textContent = number.id;
-                    tempTwo = currentDisplay.textContent;
+                    tempTwo = parseInt(currentDisplay.textContent);
                 } 
             });
         });
@@ -67,12 +69,20 @@
             operator.addEventListener("click", () => {
                 tempOperator = operator.id;
                 if (tempOne == undefined) {
-                    tempOne = currentDisplay.textContent;
+                    tempOne = parseInt(currentDisplay.textContent);
                 }
             });
         });
         equals.addEventListener("click", () => {
-
+            /* console.log(tempOperator);
+            console.log(tempOne);
+            console.log(tempTwo); */
+            for (let i = 0; i < mathFunctions.length; i++) { // matches the clicked operator with the operator inside the array and operates on the two numbers
+                if (mathFunctions[i].function == tempOperator) {
+                    let answer = mathFunctions[i].operate(tempOne, tempTwo);
+                    currentDisplay.textContent = answer;
+                }
+            }
         });
         clear.addEventListener("click", () => { //clears currentDisplay and variables
             currentDisplay.textContent = "0";
