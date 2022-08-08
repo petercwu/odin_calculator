@@ -18,6 +18,7 @@
         <button class="operator" id="subtract"> - </button>
         <button class="operator" id="multiply"> * </button>
         <button class="operator" id="divide"> ÷ </button>
+        <button class="number" id="."> . </button>
         <button id="equal"> = </button>
         <button id="clear"> clear </button>
         <p class="displayBox" id="displayHistory">  </p>
@@ -59,12 +60,12 @@
                 } else if (tempOne == undefined){
                     currentDisplay.textContent = currentDisplay.textContent + number.id;
                 } else if ((tempOne !== undefined)) { //displays the second number to operate with the first
-                    if ((tempTwo == undefined)) { //replaces display with first number to avoid adding it together
+                    if ((tempTwo == undefined)) { //replaces display with new number to avoid adding it together
                         currentDisplay.textContent = number.id;
                     } else {
                         currentDisplay.textContent = currentDisplay.textContent + number.id;
                     }
-                    tempTwo = parseInt(currentDisplay.textContent);
+                    tempTwo = parseFloat(currentDisplay.textContent);
                 } 
             });
         });
@@ -72,7 +73,7 @@
             operator.addEventListener("click", () => {
                 tempOperator = operator.id;
                 if (tempOne == undefined) {//only stores the displayed number as tempOne ONCE
-                    tempOne = parseInt(currentDisplay.textContent);
+                    tempOne = parseFloat(currentDisplay.textContent);
                 }
                 let operatorSign = document.getElementById(operator.id).innerHTML; //gets the symbol of the operator
                 displayHistory.textContent = tempOne + operatorSign;
