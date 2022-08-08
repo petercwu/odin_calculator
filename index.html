@@ -5,30 +5,43 @@
         <link rel="stylesheet" href="styles.css">
         <title> Odin Calculator </title>
     </head>
-        <p class="displayBox" id="displayHistory">  </p>
-        <p class="displayBox" id="currentDisplay">0</p>
-        <button id="del" data-key="8"> del </button>
-        <button id="clear"> clear </button>
-        <br></br>
-        <button class="number" id="7" data-key="103">7</button>
-        <button class="number" id="8" data-key="104">8</button>
-        <button class="number" id="9" data-key="105">9</button>
-        <button class="operator" id="add" data-key="107">+</button>
-        <br></br>
-        <button class="number" id="4" data-key="100">4</button>
-        <button class="number" id="5" data-key="101">5</button>
-        <button class="number" id="6" data-key="102">6</button>
-        <button class="operator" id="subtract" data-key="109">-</button>
-        <br></br>
-        <button class="number" id="1" data-key="97">1</button>
-        <button class="number" id="2" data-key="98">2</button>
-        <button class="number" id="3" data-key="99">3</button>
-        <button class="operator" id="multiply" data-key="106">*</button>
-        <br></br>
-        <button class="number" id="." data-key="110">.</button>
-        <button class="number" id="0" data-key="96">0</button>
-        <button id="equals" data-key="13"> enter (=) </button>
-        <button class="operator" id="divide" data-key="111">÷</button>
+        <div class="calculator">
+            <div class="rowOne">
+                <p class="displayBox">History</p>
+                <p class="displayBox" id="displayHistory">  </p>
+                <p class="displayBox" id="instructionsTop"> Answer </p>
+                <p class="displayBox" id="currentDisplay">0</p>
+                <p class="displayBox" id="instructionsBottom"> Input first number and choose operator </p>
+            </div>
+            <div class="rowTwo">
+                <button id="del" data-key="8"> del </button>
+                <button id="clear"> clear </button>
+            </div>
+            <div class="rowThree">
+                <button class="number" id="7" data-key="103">7</button>
+                <button class="number" id="8" data-key="104">8</button>
+                <button class="number" id="9" data-key="105">9</button>
+                <button class="operator" id="add" data-key="107">+</button>
+            </div>
+            <div class="rowFour">
+                <button class="number" id="4" data-key="100">4</button>
+                <button class="number" id="5" data-key="101">5</button>
+                <button class="number" id="6" data-key="102">6</button>
+                <button class="operator" id="subtract" data-key="109">-</button>
+            </div>
+            <div class="rowFive">
+                <button class="number" id="1" data-key="97">1</button>
+                <button class="number" id="2" data-key="98">2</button>
+                <button class="number" id="3" data-key="99">3</button>
+                <button class="operator" id="multiply" data-key="106">*</button>
+            </div>
+            <div class="rowSix">
+                <button class="number" id="." data-key="110">.</button>
+                <button class="number" id="0" data-key="96">0</button>
+                <button id="equals" data-key="13"> enter (=) </button>
+                <button class="operator" id="divide" data-key="111">÷</button>
+            </div>
+        </div>
     <script>
         let tempOne;
         let tempTwo;
@@ -60,6 +73,8 @@
         const clear = document.querySelector("#clear");
         const equals = document.querySelector("#equals");
         const del = document.querySelector("#del");
+        const instructionsTop = document.querySelector("#instructionsTop");
+        const instructionsBottom = document.querySelector("#instructionsBottom");
         let display = [];
 
         numbers.forEach((number) => { //displays current selected number
@@ -75,16 +90,18 @@
                 if (tempOne == undefined) { //only stores the displayed number as tempOne ONCE until reset by equals
                     tempOne = parseFloat(currentDisplay.textContent);
                     display = []; //resets display after storing tempOne
+                    instructionsBottom.textContent = "Input second number and press enter"
                 }
                 let operatorSign = document.getElementById(operator.id).innerHTML; //gets the symbol of the operator
-                displayHistory.textContent = tempOne + operatorSign;
+                displayHistory.textContent = tempOne + " " + operatorSign;
             });
         });
 
         equals.addEventListener("click", () => { // matches the clicked operator with the operator inside the array and operates on the two numbers
             tempTwo = parseFloat(currentDisplay.textContent);
             if ((tempOne && tempTwo) !== undefined) { //only operates if two numbers are selected
-                displayHistory.textContent = displayHistory.textContent + currentDisplay.textContent + " =";
+                displayHistory.textContent = displayHistory.textContent + " " + currentDisplay.textContent + " =";
+                instructionsBottom.textContent = "Continue operating or input new number";
                 for (let i = 0; i < mathFunctions.length; i++) { 
                     if (mathFunctions[i].function == tempOperator) {
                         let answer = mathFunctions[i].operate(tempOne, tempTwo);
