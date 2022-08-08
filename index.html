@@ -20,9 +20,12 @@
         <button class="operator" id="divide"> ÷ </button>
         <button class="operator" id="equal"> = </button>
         <button class="operator" id="clear"> clear </button>
-        <p class="displayBox" id="displayHistory"> 0 </p>
-        <p class="displayBox" id="currentDisplay"> 0 </p>
+        <p class="displayBox" id="displayHistory">  </p>
+        <p class="displayBox" id="currentDisplay">0</p>
     <script>
+        let tempOne;
+        let tempTwo;
+        let tempOperator;
         //a is first number
         //b is second number
         const add = (a,b) => a + b;
@@ -32,11 +35,26 @@
         const operate = (a, b, operator) => operator(a,b);
         
         const numbers = document.querySelectorAll(".number");
-        const display = document.querySelector("#displayBox");
-        numbers.forEach((number) => {
+        const currentDisplay = document.querySelector("#currentDisplay");
+        const operators = document.querySelectorAll(".operator");
+        const clear = document.querySelector("#clear");
+        numbers.forEach((number) => { //displays current selected number
             number.addEventListener("click", () => {
-                display.textContent = number.id;
+                if (currentDisplay.textContent == "0") { //changes currentDisplay to first number instead of adding "0" to the string
+                    currentDisplay.textContent = number.id;
+                } else {
+                    currentDisplay.textContent = currentDisplay.textContent + number.id;
+                }
+                tempOne = currentDisplay.textContent;
             });
+        });
+        operators.forEach((operator) => { //stores the clicked operator inside a variable
+            operator.addEventListener("click", () => {
+                tempOperator = operator.id;
+            });
+        });
+        clear.addEventListener("click", () => { //clears currentDisplay
+            currentDisplay.textContent = "0";
         });
     </script>
 </html>
