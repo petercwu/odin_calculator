@@ -1,15 +1,43 @@
-.calculator {
+body {
     display: flex;
     flex-direction: column;
-    text-align: center;
+    justify-content: center;
+    align-items: center;
+    min-width: 1000px;
+    min-height: auto;
+}
+
+.calculator {
+    display: block;
+    border: solid 5px;
+    border-radius: 30px;
+    background-color: black;
+    width: 50%;
+    height: auto;
+}
+
+button:hover {
+    background-color: gray;
+    color: white;
+}
+button {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 20px;
+    height: auto;
+    font-size: 40px;
+    font-weight: bold;
+    font-family: serif;
 }
 
 .rowOne {
     display: flex;
     flex-direction: column;
     border: solid 3px black;
+    background-color: rgba(224, 218, 218, 0.938);
     justify-content: center;
     align-items: center;
+    border-radius: 20px;
     font-size: 40px;
     font-weight: bold;
     padding: 0 50px;
@@ -17,24 +45,48 @@
 }
 
 #displayHistory, #currentDisplay {
+    background-color: white;
+    border-radius: 50px;
     display: flex;
-    flex: auto;
-    justify-content: center;
+    justify-content: right;
     align-items: center;
     margin-top: -30px;
-    border: solid 2px black;
+    border: solid 5px black;
     height: 50px;
     width: 100%;
-    padding: 0 20px
-    
+    padding: 0 20px;
+    white-space: nowrap; /* makes it stay on the same line */
+    overflow: hidden; /* hides the text if text is outside container */
+    text-overflow: ellipse;  /* how the overflow hidden text is displayed */
 }
 
 #currentDisplay {
     margin-bottom: -40px;
 }
-/* #currentDisplay {
-    border: solid 2px black;
-    height: 50px;
-    width: 100%;
-    padding: 0 20px
-} */
+
+.displayBox {
+    font-family: serif;
+}
+
+#instructionsBottom {
+    text-align: center;
+}
+
+.rowTwo,
+.rowThree,
+.rowFour,
+.rowFive,
+.rowSix {
+    display: flex;
+}
+
+.rowTwo .sameRow {
+    width: 50%;
+}
+
+.rowThree .sameRow,
+.rowFour .sameRow,
+.rowFive .sameRow,
+.rowSix .sameRow {
+    width: 25%;
+}
