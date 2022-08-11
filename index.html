@@ -105,7 +105,6 @@
 
         equals.addEventListener("click", () => { // matches the clicked operator with the operator inside the array and operates on the two numbers
             if (!(displayHistory.textContent.includes("="))) {
-                console.log(displayHistory.textContent);
                 tempTwo = parseFloat(currentDisplay.textContent);
                 if ((tempOne && tempTwo) !== undefined) { //only operates if two numbers are selected
                     displayHistory.textContent = displayHistory.textContent + " " + currentDisplay.textContent + " =";
