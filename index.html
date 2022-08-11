@@ -47,6 +47,7 @@
         let tempTwo;
         let tempOperator;
         let operatorSign;
+        let answer;
         //a is first number
         //b is second number
         const mathFunctions = [
@@ -88,14 +89,15 @@
 
         operators.forEach((operator) => { 
             operator.addEventListener("click", () => {
-                tempTwo = currentDisplay.textContent;
                 if ((tempOne && tempTwo) !== undefined) {
                     document.getElementById(equals.id).click();
+                    tempOperator = operator.id; //stores the clicked operator inside a variable
                 }
-                tempOperator = operator.id; //stores the clicked operator inside a variable
+                tempOperator = operator.id; 
                 tempOne = parseFloat(currentDisplay.textContent);
+                tempTwo = parseFloat(currentDisplay.textContent);
                 display = []; //resets display after storing tempOne
-                instructionsBottom.textContent = "Input second number and press enter"
+                instructionsBottom.textContent = "Input second number then press enter"
                 operatorSign = document.getElementById(operator.id).innerHTML; //gets the symbol of the operator
                 displayHistory.textContent = tempOne + " " + operatorSign;
             });
@@ -108,10 +110,11 @@
                 instructionsBottom.textContent = "Continue operating or input new number";
                 for (let i = 0; i < mathFunctions.length; i++) { 
                     if (mathFunctions[i].function == tempOperator) {
-                        let answer = mathFunctions[i].operate(tempOne, tempTwo);
+                        answer = mathFunctions[i].operate(tempOne, tempTwo);
                         currentDisplay.textContent = answer;
                         display = []; //resets the stored variable
                         tempOne = answer; //makes it so you can use currentDisplay number for furthur operations
+                        tempTwo = undefined;
                     }
                 }
                 
@@ -123,7 +126,6 @@
             displayHistory.textContent = "0";
             tempOne = tempTwo = tempOperator = undefined;
             display = [];
-            console.log("last")
         });
 
         Delete.addEventListener("click", () => { //Deletes last added digit in display
@@ -152,7 +154,7 @@
             }
         };
         
-        buttons.forEach(button => { //unfocuses the html buttons after being pressed, avoids enter clicking last clicked button
+        buttons.forEach(button => { //unfocuses the html buttons after being pressed, avoids Enter clicking last clicked button
             button.addEventListener("click", () => {
                 button.blur();
             });
