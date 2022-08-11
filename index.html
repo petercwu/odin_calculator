@@ -15,7 +15,7 @@
             </div>
             <div class="rowTwo">
                 <button class="sameRow" id="Delete" data-key="8"> Delete </button>
-                <button class="sameRow" id="Clear"> Clear </button>
+                <button class="sameRow" id="Clear" > Clear </button>
             </div>
             <div class="rowThree">
                 <button class="number sameRow" id="7" data-key="103">7</button>
@@ -46,6 +46,7 @@
         let tempOne;
         let tempTwo;
         let tempOperator;
+        let operatorSign;
         //a is first number
         //b is second number
         const mathFunctions = [
@@ -75,6 +76,7 @@
         const Delete = document.querySelector("#Delete");
         const instructionsTop = document.querySelector("#instructionsTop");
         const instructionsBottom = document.querySelector("#instructionsBottom");
+        const buttons = document.querySelectorAll("button");
         let display = [];
 
         numbers.forEach((number) => { //displays current selected number
@@ -86,13 +88,15 @@
 
         operators.forEach((operator) => { 
             operator.addEventListener("click", () => {
-                tempOperator = operator.id; //stores the clicked operator inside a variable
-                if (tempOne == undefined) { //only stores the displayed number as tempOne ONCE until reset by equals
-                    tempOne = parseFloat(currentDisplay.textContent);
-                    display = []; //resets display after storing tempOne
-                    instructionsBottom.textContent = "Input second number and press enter"
+                tempTwo = currentDisplay.textContent;
+                if ((tempOne && tempTwo) !== undefined) {
+                    document.getElementById(equals.id).click();
                 }
-                let operatorSign = document.getElementById(operator.id).innerHTML; //gets the symbol of the operator
+                tempOperator = operator.id; //stores the clicked operator inside a variable
+                tempOne = parseFloat(currentDisplay.textContent);
+                display = []; //resets display after storing tempOne
+                instructionsBottom.textContent = "Input second number and press enter"
+                operatorSign = document.getElementById(operator.id).innerHTML; //gets the symbol of the operator
                 displayHistory.textContent = tempOne + " " + operatorSign;
             });
         });
@@ -107,20 +111,22 @@
                         let answer = mathFunctions[i].operate(tempOne, tempTwo);
                         currentDisplay.textContent = answer;
                         display = []; //resets the stored variable
-                        tempOne = undefined; //makes it so you can use currentDisplay number for furthur operations
+                        tempOne = answer; //makes it so you can use currentDisplay number for furthur operations
                     }
                 }
+                
             }
         });
 
         Clear.addEventListener("click", () => { //Clears the display and variables
             currentDisplay.textContent = "0";
-            displayHistory.textContent = "";
+            displayHistory.textContent = "0";
             tempOne = tempTwo = tempOperator = undefined;
             display = [];
+            console.log("last")
         });
 
-        Delete.addEventListener("click", () => { //Deleteetes last added digit in display
+        Delete.addEventListener("click", () => { //Deletes last added digit in display
             if (display.length > 1) {
                 display.pop();
                 currentDisplay.textContent = display.join("");
@@ -146,6 +152,12 @@
             }
         };
         
+        buttons.forEach(button => { //unfocuses the html buttons after being pressed, avoids enter clicking last clicked button
+            button.addEventListener("click", () => {
+                button.blur();
+            });
+        });
+
         window.addEventListener("keydown", keyPressed);
     </script>
 </html>
