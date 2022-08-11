@@ -104,20 +104,22 @@
         });
 
         equals.addEventListener("click", () => { // matches the clicked operator with the operator inside the array and operates on the two numbers
-            tempTwo = parseFloat(currentDisplay.textContent);
-            if ((tempOne && tempTwo) !== undefined) { //only operates if two numbers are selected
-                displayHistory.textContent = displayHistory.textContent + " " + currentDisplay.textContent + " =";
-                instructionsBottom.textContent = "Continue operating or input new number";
-                for (let i = 0; i < mathFunctions.length; i++) { 
-                    if (mathFunctions[i].function == tempOperator) {
-                        answer = mathFunctions[i].operate(tempOne, tempTwo);
-                        currentDisplay.textContent = answer;
-                        display = []; //resets the stored variable
-                        tempOne = answer; //makes it so you can use currentDisplay number for furthur operations
-                        tempTwo = undefined;
+            if (!(displayHistory.textContent.includes("="))) {
+                console.log(displayHistory.textContent);
+                tempTwo = parseFloat(currentDisplay.textContent);
+                if ((tempOne && tempTwo) !== undefined) { //only operates if two numbers are selected
+                    displayHistory.textContent = displayHistory.textContent + " " + currentDisplay.textContent + " =";
+                    instructionsBottom.textContent = "Continue operating or input new number";
+                    for (let i = 0; i < mathFunctions.length; i++) { 
+                        if (mathFunctions[i].function == tempOperator) {
+                            answer = mathFunctions[i].operate(tempOne, tempTwo);
+                            currentDisplay.textContent = answer;
+                            display = []; //resets the stored variable
+                            tempOne = answer; //makes it so you can use currentDisplay number for furthur operations
+                            tempTwo = undefined;
+                        }   
                     }
                 }
-                
             }
         });
 
