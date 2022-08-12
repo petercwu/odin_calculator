@@ -89,6 +89,12 @@
 
         operators.forEach((operator) => { 
             operator.addEventListener("click", () => {
+                if (display.length == 0) {
+                    tempOperator = operator.id; 
+                    operatorSign = document.getElementById(operator.id).innerHTML; //gets the symbol of the operator
+                    displayHistory.textContent = tempOne + " " + operatorSign;
+                    return;
+                }
                 if ((tempOne && tempTwo) !== undefined) {
                     document.getElementById(equals.id).click();
                     tempOperator = operator.id; //stores the clicked operator inside a variable
@@ -106,6 +112,7 @@
         equals.addEventListener("click", () => { // matches the clicked operator with the operator inside the array and operates on the two numbers
             if (!(displayHistory.textContent.includes("="))) {
                 tempTwo = parseFloat(currentDisplay.textContent);
+                console.log(tempOperator);
                 if ((tempOne && tempTwo) !== undefined) { //only operates if two numbers are selected
                     displayHistory.textContent = displayHistory.textContent + " " + currentDisplay.textContent + " =";
                     instructionsBottom.textContent = "Continue operating or input new number";
